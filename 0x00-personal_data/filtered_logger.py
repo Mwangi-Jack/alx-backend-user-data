@@ -29,8 +29,7 @@ class RedactingFormatter(logging.Formatter):
         self.fields = fields
 
     def format(self, record: logging.LogRecord) -> str:
-        """
-        This function filters values in incoming log records
+        """This function filters values in incoming log records
         using 'filter_datum
         """
         message = super().format(record)
