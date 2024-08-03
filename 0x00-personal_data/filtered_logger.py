@@ -1,4 +1,5 @@
-#!usr/bin/env python3
+#!/usr/bin/env python3
+
 """obfuscating Personal Identifiable Information"""
 
 import re
