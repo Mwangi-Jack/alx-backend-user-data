@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Authentication class"""
 
+import os
 from flask import request
 from typing import List, TypeVar
 
@@ -15,7 +16,18 @@ class Auth:
         This method takes in 'path' and 'excluded_paths' as arguments
         and checks if the path needs authentication returning a boolean
         """
-        return False
+        if not path:
+            return True
+
+        if not excluded_paths:
+            return True
+
+        excluded_paths = [os.path.normpath(p) for p in excluded_paths]
+        path = os.path.normpath(path)
+        if path in excluded_paths:
+            return False
+
+        return True
 
     def authorization_header(self, request=None) -> str:
         """This method returns None"""
