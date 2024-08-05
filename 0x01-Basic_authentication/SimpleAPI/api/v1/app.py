@@ -19,12 +19,14 @@ auth = getenv('AUTH_TYPE', None)
 if auth:
     auth = Auth()
 
+
 @app.before_request
 def before_request():
     """This function filters each request"""
     if auth is not None:
         path = request.path
-        excluded_paths = ['/api/v1/status/', '/api/v1/unauthorized/', '/api/v1/forbidden/']
+        excluded_paths = ['/api/v1/status/',
+                          '/api/v1/unauthorized/', '/api/v1/forbidden/']
         if auth.require_auth(path, excluded_paths):
             if auth.authorization_header(request) is None:
                 abort(401)
