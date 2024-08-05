@@ -2,7 +2,6 @@
 """
 Route module for the API
 """
-import json
 from os import getenv
 from api.v1.views import app_views
 from api.v1.auth.auth import Auth
