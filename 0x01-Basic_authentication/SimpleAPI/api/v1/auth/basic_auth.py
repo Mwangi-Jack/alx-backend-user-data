@@ -2,6 +2,9 @@
 """BasicAuth class definition"""
 
 import re
+import base64
+
+from itsdangerous import base64_decode
 
 
 class BasicAuth:
@@ -21,3 +24,18 @@ class BasicAuth:
                     return match.group(1)
 
         return None
+
+    def  decode_base64_authorization_header(self, base64_authorization_header: str) -> str:
+        """This method takes in a Base64 string
+        'base64_authorization_header and decodes its value
+        """
+        try:
+            if base64_authorization_header:
+                if isinstance(base64_authorization_header, str):
+                    decoded_str = base64.b64decode(base64_authorization_header)
+
+                    return decoded_str.decode('utf-8')
+
+            return None
+        except:
+            return None
