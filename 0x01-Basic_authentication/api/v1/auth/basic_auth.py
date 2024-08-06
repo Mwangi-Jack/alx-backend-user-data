@@ -4,6 +4,8 @@
 import re
 import base64
 from typing import TypeVar
+
+from spnego import Credential
 from api.v1.auth.auth import Auth
 from models.user import User
 
@@ -78,3 +80,18 @@ class BasicAuth (Auth):
 
     def current_user(self, request=None) -> TypeVar('User'):
         """This method retrieves  the current user"""
+        if not request:
+            return None
+
+        authorization_header = self.authorization_header(request)
+
+        b64_auth = self.extract_base64_authorization_header(
+            authorization_header)
+
+        credentials = self.decode_base64_authorization_header(b64_auth)
+
+        if credentials:
+            return self.user_object_from_credentials(credentials[0],
+                                                     credentials[1])
+
+        return credentials
