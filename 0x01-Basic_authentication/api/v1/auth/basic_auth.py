@@ -3,6 +3,8 @@
 
 import re
 import base64
+from typing import TypeVar
+from models.user import User
 
 
 class BasicAuth ():
@@ -57,3 +59,18 @@ class BasicAuth ():
                     return (match.group(1), match.group(2))
 
         return (None, None)
+
+    def user_object_from_credentials(self,
+                                     user_email: str,
+                                     user_pwd: str) -> TypeVar('User'):
+        """
+        This method takes in 'user_email' and 'user_pwd' and checks if the user
+        exists in the database
+        """
+        if user_email and user_pwd:
+            if isinstance(user_email, str) and isinstance(user_pwd, str):
+                user = User.search({'email': user_email})
+                if user:
+                    if user[0].is_valid_password(user_pwd):
+                        return user[0]
+        return None
