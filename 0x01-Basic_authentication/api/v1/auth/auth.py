@@ -17,16 +17,23 @@ class Auth:
         This method takes in 'path' and 'excluded_paths' as arguments
         and checks if the path needs authentication returning a boolean
         """
+
         if not path:
             return True
 
         if not excluded_paths:
             return True
 
-        excluded_paths = [os.path.normpath(p) for p in excluded_paths]
-        path = os.path.normpath(path)
-        if path in excluded_paths:
-            return False
+        path = os.path.normpath(path).strip('/')
+        excluded_paths = [os.path.normpath(p).strip('/') for p in excluded_paths]
+
+        for excluded_path in excluded_paths:
+            if excluded_path.endswith('*'):
+                prefix = excluded_path[:1]
+                if path.startswith(prefix):
+                    return False
+            elif path == excluded_path:
+                return False
 
         return True
 
