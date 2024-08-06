@@ -2,8 +2,9 @@
 """Authentication class"""
 
 import os
-from flask import request
 from typing import List, TypeVar
+from flask import request
+
 
 class Auth:
     """This class defined all its methods"""

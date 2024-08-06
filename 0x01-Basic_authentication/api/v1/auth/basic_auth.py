@@ -13,7 +13,8 @@ class BasicAuth:
         """initialization method"""
         pass
 
-    def extract_base64_authorization_header(self, authorization_header: str) -> str:
+    def extract_base64_authorization_header(self,
+                                            authorization_header: str) -> str:
         """This method extracts the base64 authorization header"""
         if authorization_header:
             if isinstance(authorization_header, str):
@@ -25,7 +26,9 @@ class BasicAuth:
 
         return None
 
-    def  decode_base64_authorization_header(self, base64_authorization_header: str) -> str:
+    def decode_base64_authorization_header(self,
+                                           base64_authorization_header: str
+                                           ) -> str:
         """This method takes in a Base64 string
         'base64_authorization_header and decodes its value
         """
@@ -37,5 +40,5 @@ class BasicAuth:
                     return decoded_str.decode('utf-8')
 
             return None
-        except:
+        except ValueError:
             return None
