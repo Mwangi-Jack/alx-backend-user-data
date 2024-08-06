@@ -3,10 +3,9 @@
 
 import re
 import base64
-from auth import Auth
 
 
-class BasicAuth (Auth):
+class BasicAuth ():
     """This class defines all its methods"""
     def __init__(self):
         """initialization method"""
