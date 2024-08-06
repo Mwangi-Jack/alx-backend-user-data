@@ -78,4 +78,3 @@ class BasicAuth (Auth):
 
     def current_user(self, request=None) -> TypeVar('User'):
         """This method retrieves  the current user"""
-
