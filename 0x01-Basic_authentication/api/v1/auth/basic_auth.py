@@ -12,7 +12,7 @@ class BasicAuth (Auth):
     """This class defines all its methods"""
     def __init__(self):
         """initialization method"""
-        pass
+        super().__init__()
 
     def extract_base64_authorization_header(self,
                                             authorization_header: str) -> str:
