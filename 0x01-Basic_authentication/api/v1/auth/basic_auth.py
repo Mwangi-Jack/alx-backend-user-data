@@ -40,3 +40,20 @@ class BasicAuth ():
             return None
         except ValueError:
             return None
+
+    def extract_user_credentials(self,
+                                 decoded_base64_authorization_header: str
+                                 ) -> (str, str):
+        """
+        This method takes in 'decoded_base64_authorization_header' as argument
+        and extracts username and email returning a tuple consisting of the two
+        """
+        if decoded_base64_authorization_header:
+            if isinstance(decoded_base64_authorization_header, str):
+                pattern = r'^([^:]+):(.+)$'
+                match = re.match(pattern, decoded_base64_authorization_header)
+
+                if match:
+                    return (match.group(1), match.group(2))
+
+        return (None, None)
