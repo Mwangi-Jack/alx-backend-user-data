@@ -4,10 +4,11 @@
 import re
 import base64
 from typing import TypeVar
+from api.v1.auth.auth import Auth
 from models.user import User
 
 
-class BasicAuth ():
+class BasicAuth (Auth):
     """This class defines all its methods"""
     def __init__(self):
         """initialization method"""
@@ -74,3 +75,7 @@ class BasicAuth ():
                     if user[0].is_valid_password(user_pwd):
                         return user[0]
         return None
+
+    def current_user(self, request=None) -> TypeVar('User'):
+        """This method retrieves  the current user"""
+
