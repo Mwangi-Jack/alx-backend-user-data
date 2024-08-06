@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """BasicAuth class definition"""
 
+import binascii
 import re
 import base64
 from typing import TypeVar
 
-from spnego import Credential
 from api.v1.auth.auth import Auth
 from models.user import User
 
@@ -39,11 +39,10 @@ class BasicAuth (Auth):
             if base64_authorization_header:
                 if isinstance(base64_authorization_header, str):
                     decoded_str = base64.b64decode(base64_authorization_header)
-
                     return decoded_str.decode('utf-8')
 
             return None
-        except ValueError:
+        except (binascii.Error, ValueError):
             return None
 
     def extract_user_credentials(self,
@@ -84,11 +83,10 @@ class BasicAuth (Auth):
             return None
 
         authorization_header = self.authorization_header(request)
+        auth = self.extract_base64_authorization_header(authorization_header)
 
-        b64_auth = self.extract_base64_authorization_header(
-            authorization_header)
-
-        credentials = self.decode_base64_authorization_header(b64_auth)
+        b64_auth = self.decode_base64_authorization_header(auth)
+        credentials = self.extract_user_credentials(b64_auth)
 
         if credentials:
             return self.user_object_from_credentials(credentials[0],
