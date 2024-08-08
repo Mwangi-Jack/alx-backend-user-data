@@ -26,6 +26,7 @@ if auth:
 def before_request():
     """This function filters each request"""
     if auth is not None:
+        request.current_user = auth.current_user(request)
         path = request.path
         excluded_paths = ['/api/v1/status/',
                           '/api/v1/unauthorized/', '/api/v1/forbidden/']
