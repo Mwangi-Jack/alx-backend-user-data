@@ -25,7 +25,8 @@ class Auth:
             return True
 
         path = os.path.normpath(path).strip('/')
-        excluded_paths = [os.path.normpath(p).strip('/') for p in excluded_paths]
+        excluded_paths = [os.path.normpath(p).strip('/')
+                          for p in excluded_paths]
 
         for excluded_path in excluded_paths:
             if excluded_path.endswith('*'):
