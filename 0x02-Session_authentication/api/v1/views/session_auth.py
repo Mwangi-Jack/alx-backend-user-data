@@ -36,4 +36,4 @@ def login():
 
     out.set_cookie(getenv('SESSION_NAME'), session_id)
 
-    return jsonify(user.to_json())
+    return jsonify(user[0].to_json())
