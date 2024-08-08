@@ -45,7 +45,7 @@ def before_request():
 
         authorization = auth.authorization_header(request)
         session_cookie = auth.session_cookie(request)
-        if not authorization and not session_cookie:
+        if  authorization is None and  session_cookie is None:
             abort(401)
 
 
