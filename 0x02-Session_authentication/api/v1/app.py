@@ -44,10 +44,10 @@ def before_request():
                 abort(403)
 
         if auth.authorization_header(request) is None:
-            abort(401)
+            None
 
         if auth.session_cookie(request) is None:
-            abort(401)
+            None
 
 
 @app.errorhandler(404)
