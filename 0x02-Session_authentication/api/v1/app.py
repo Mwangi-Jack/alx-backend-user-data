@@ -47,7 +47,7 @@ def before_request():
             return None
 
         if auth.session_cookie(request) is None:
-            abort(401)
+            abort(403)
 
 
 @app.errorhandler(404)

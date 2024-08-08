@@ -3,6 +3,7 @@
 
 import uuid
 from api.v1.auth.auth import Auth
+from models.user import User
 
 
 class SessionAuth(Auth):
@@ -40,3 +41,18 @@ class SessionAuth(Auth):
             return self.user_id_by_session_id.get(session_id)
 
         return None
+
+    def current_user(self, request=None):
+        """
+        This method takes in a request object as its parameter
+        and retrieves the current user based on the cookies on
+        the request
+        """
+
+        session_id = self.session_cookie(request)
+
+        user_id = self.user_id_for_session_id(session_id)
+
+        print(User.get(user_id))
+
+        return User.get(user_id)
