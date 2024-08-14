@@ -6,6 +6,7 @@ from db import DB
 from user import User
 from sqlalchemy.exc import InvalidRequestError
 from sqlalchemy.orm.exc import NoResultFound
+from auth import _hash_password
 
 
 my_db = DB()
@@ -53,14 +54,20 @@ my_db = DB()
 
 # Test 3
 
-email = 'test@test.com'
-hashed_password = "hashedPwd"
+# email = 'test@test.com'
+# hashed_password = "hashedPwd"
 
-user = my_db.add_user(email, hashed_password)
-print(user.id)
+# user = my_db.add_user(email, hashed_password)
+# print(user.id)
 
-try:
-    my_db.update_user(user.id, hashed_password='NewPwd')
-    print("Password updated")
-except ValueError:
-    print("Error")
+# try:
+#     my_db.update_user(user.id, hashed_password='NewPwd')
+#     print("Password updated")
+# except ValueError:
+#     print("Error")
+
+
+# Test 4
+
+
+print(_hash_password("Hello Holberton"))
