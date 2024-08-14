@@ -2,9 +2,10 @@
 """
 Main file
 """
+from db import DB
+from user import User
 
 # Test 0
-# from user import User
 
 # print(User.__tablename__)
 
@@ -13,8 +14,6 @@ Main file
 
 
 # Test 1
-from db import DB
-from user import User
 
 my_db = DB()
 
