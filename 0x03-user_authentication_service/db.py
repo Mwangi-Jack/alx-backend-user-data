@@ -60,10 +60,6 @@ class DB:
             raise InvalidRequestError from exc
 
     def update_user(self, user_id: int, **kwargs: Dict[str, Any]) -> None:
-        """
-        This method updates a user with the give 'user_id'
-        """
-
         try:
             user = self.find_user_by(id=user_id)
 
@@ -71,9 +67,11 @@ class DB:
                 if hasattr(user, key):
                     setattr(user, key, value)
                 else:
-                    raise ValueError
+                    raise ValueError(f"User object has no attribute '{key}'")
 
             self._session.commit()
 
-        except (NoResultFound, InvalidRequestError) as exc:
+        except NoResultFound:
+            raise ValueError
+        except InvalidRequestError as exc:
             raise ValueError from exc
