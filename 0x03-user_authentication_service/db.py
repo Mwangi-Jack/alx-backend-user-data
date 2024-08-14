@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""Database  module
-"""
+"""Database  module"""
 from typing import Dict, Any
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
