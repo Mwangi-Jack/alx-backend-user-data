@@ -71,7 +71,7 @@ class DB:
 
             self._session.commit()
 
-        except NoResultFound:
-            raise ValueError
+        except NoResultFound as exc:
+            raise ValueError from exc
         except InvalidRequestError as exc:
             raise ValueError from exc
