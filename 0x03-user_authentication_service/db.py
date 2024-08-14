@@ -5,7 +5,8 @@ from typing import Dict, Any
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
-from sqlalchemy.exc import NoResultFound, InvalidRequestError
+from sqlalchemy.orm.exc import NoResultFound
+from sqlalchemy.exc import InvalidRequestError
 from user import Base, User
 
 
@@ -46,8 +47,14 @@ class DB:
         the first row found in the users table as
         filtered by the kwargs
         """
-        user = self._session.query(User).filter_by(**kwargs).first()
-        if not user:
-            raise NoResultFound
+        try:
+            query = self._session.query(User).filter_by(**kwargs)
 
-        return user
+            user = query.one()
+            return user
+
+        except NoResultFound as exc:
+            raise NoResultFound from exc
+
+        except InvalidRequestError as exc:
+            raise InvalidRequestError from exc
