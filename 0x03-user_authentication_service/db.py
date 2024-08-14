@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Database  module
 """
-from typing import Dict
+from typing import Dict, Any
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
@@ -41,7 +41,7 @@ class DB:
 
         return user
 
-    def find_user_by(self, **kwargs: Dict[str, str]) -> User:
+    def find_user_by(self, **kwargs: Dict[str, Any]) -> User:
         """
         This method takes in a key worded value and returns
         the first row found in the users table as
@@ -58,3 +58,19 @@ class DB:
 
         except InvalidRequestError as exc:
             raise InvalidRequestError from exc
+
+    def update_user(self, user_id: int, **kwargs: Dict[str, Any]) -> None:
+        """
+        This method updates a user with the give 'user_id'
+        """
+
+        try:
+            user = self.find_user_by(id=user_id)
+
+            for key, value in kwargs.items():
+                setattr(user, key, value)
+
+            self._session.commit()
+
+        except (NoResultFound, InvalidRequestError) as exc:
+            raise ValueError from exc
