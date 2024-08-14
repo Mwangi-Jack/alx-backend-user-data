@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Database  module
 """
+from typing import Any
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
@@ -40,7 +41,7 @@ class DB:
 
         return user
 
-    def find_user_by(self, **kwargs: dict[str, str]) -> User:
+    def find_user_by(self, **kwargs: dict[str, Any]) -> User:
         """
         This method takes in a key worded value and returns
         the first row found in the users table as
