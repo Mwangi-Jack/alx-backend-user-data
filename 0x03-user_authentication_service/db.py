@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 """Database  module
 """
-from typing import Optional
+from typing import Dict, Any
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
+from sqlalchemy.exc import NoResultFound, InvalidRequestError
 from user import Base, User
 
 
@@ -36,5 +37,17 @@ class DB:
         self._session.add(user)
         self._session.commit()
         self._session.refresh(user)
+
+        return user
+
+    def find_user_by(self, **kwargs: Dict[str, Any]) -> User:
+        """
+        This method takes in a key worded value and returns
+        the first row found in the users table as
+        filtered by the kwargs
+        """
+        user = self._session.query(User).filter_by(**kwargs).first()
+        if not user:
+            raise NoResultFound
 
         return user
