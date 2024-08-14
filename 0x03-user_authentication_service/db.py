@@ -60,6 +60,9 @@ class DB:
             raise InvalidRequestError from exc
 
     def update_user(self, user_id: int, **kwargs: Dict[str, Any]) -> None:
+        """
+        This method updates a user with the specified 'user_id'
+        """
         try:
             user = self.find_user_by(id=user_id)
 
@@ -71,7 +74,5 @@ class DB:
 
             self._session.commit()
 
-        except NoResultFound as exc:
-            raise ValueError from exc
-        except InvalidRequestError as exc:
+        except (NoResultFound, InvalidRequestError) as exc:
             raise ValueError from exc
