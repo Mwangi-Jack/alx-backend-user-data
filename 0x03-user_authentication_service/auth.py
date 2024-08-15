@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Authentication methods"""
+from typing import Optional
 import bcrypt
 import uuid
 from sqlalchemy.orm.exc import NoResultFound
@@ -76,7 +77,7 @@ class Auth:
         except NoResultFound:
             return None
 
-    def get_user_from_session_id(self, session_id: str) -> User | None:
+    def get_user_from_session_id(self, session_id: str) -> Optional[User]:
         """
         This method takes in a single string argument 'session_id'
         and returns the User with the session_id or None
