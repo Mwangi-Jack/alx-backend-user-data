@@ -105,7 +105,7 @@ class Auth:
         except NoResultFound:
             return None
 
-    def get_reset_password_token(self, email):
+    def get_reset_password_token(self, email: str) -> str:
         """
         This method takes in a string argument 'email'
         finds the user corresponding to the 'email' and returns
@@ -118,7 +118,7 @@ class Auth:
 
             self._db.update_user(user.id, reset_token=reset_token)
 
-            return reset_token
+            return user.reset_token
 
         except NoResultFound as exc:
             raise ValueError from exc
