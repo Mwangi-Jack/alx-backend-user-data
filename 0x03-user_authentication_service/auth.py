@@ -60,7 +60,7 @@ class Auth:
         except NoResultFound:
             return False
 
-    def create_session(self, email: str) -> str | None:
+    def create_session(self, email: str) -> str:
         """
         This method creates a user session and returns the
         session ID
