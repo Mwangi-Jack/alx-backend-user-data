@@ -69,9 +69,9 @@ def profile():
     user = AUTH.get_user_from_session_id(session_id)
 
     if user:
-        make_response(jsonify({"email": user.email}), 200)
+        return jsonify({"email": user.email}), 200
 
-    make_response('', 403)
+    abort(403)
 
 
 @app.route('/reset_password', methods=['POST'], strict_slashes=False)
@@ -83,10 +83,10 @@ def get_reset_password_token():
     try:
         reset_token = AUTH.get_reset_password_token(email)
 
-        make_response(jsonify({"email": email, "reset_token": reset_token}))
+        return jsonify({"email": email, "reset_token": reset_token}), 200
 
     except ValueError:
-        make_response(403)
+        abort(403)
 
 
 if __name__ == "__main__":
