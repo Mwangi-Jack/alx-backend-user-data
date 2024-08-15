@@ -22,6 +22,10 @@ class Auth:
     def __init__(self):
         self._db = DB()
 
+    def _generate_uuid(self):
+        """This method generates a unique string"""
+        return str(uuid4())
+
     def register_user(self, email: str, password: str) -> User:
         """
         This method takes in two str arguments 'email' and 'password'
@@ -54,7 +58,3 @@ class Auth:
 
         except NoResultFound:
             return False
-
-    def _generate_uuid(self):
-        """This method generates a unique string"""
-        return str(uuid4())
