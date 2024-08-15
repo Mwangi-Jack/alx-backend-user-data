@@ -52,11 +52,11 @@ class DB:
             user = query.one()
             return user
 
-        except NoResultFound:
-            raise NoResultFound
+        except NoResultFound as exc:
+            raise NoResultFound from exc
 
-        except InvalidRequestError:
-            raise InvalidRequestError
+        except InvalidRequestError as exc:
+            raise InvalidRequestError from exc
 
     def update_user(self, user_id: int, **kwargs: Dict[str, Any]) -> None:
         """
