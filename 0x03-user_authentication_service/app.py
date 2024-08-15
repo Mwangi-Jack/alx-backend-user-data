@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """This file defines all the API routes"""
 
-from flask import Flask, abort, request, jsonify
+from flask import Flask, abort, redirect, request, jsonify, url_for
 from auth import Auth
 
 app = Flask(__name__)
@@ -43,6 +43,21 @@ def login():
         return out
 
     abort(401)
+
+
+@app.route('/sessions', methods=['DELETE'], strict_slashes=False)
+def logout():
+    """This method defines the route to destroy a session"""
+
+    session_id = request.cookies.get('session_id')
+
+    user = AUTH.get_user_from_session_id(session_id)
+
+    if user is None:
+        abort(403)
+
+    AUTH.destroy_session(user.id)
+    return redirect(url_for('index'))
 
 
 if __name__ == "__main__":
