@@ -47,7 +47,7 @@ def login():
 
 
 @app.route('/sessions', methods=['DELETE'], strict_slashes=False)
-def logout() -> None:
+def logout():
     """This method defines the route to destroy a session"""
 
     session_id = request.cookies.get('session_id')
@@ -68,10 +68,10 @@ def profile():
 
     user = AUTH.get_user_from_session_id(session_id)
 
-    if user:
-        return jsonify({"email": user.email}), 200
+    if not user:
+        abort(403)
 
-    abort(403)
+    return jsonify({"email": user.email}), 200
 
 
 @app.route('/reset_password', methods=['POST'], strict_slashes=False)
