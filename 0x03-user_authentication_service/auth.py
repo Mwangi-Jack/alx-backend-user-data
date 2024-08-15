@@ -22,7 +22,7 @@ class Auth:
     def __init__(self):
         self._db = DB()
 
-    def _generate_uuid(self):
+    def _generate_uuid():
         """This method generates a unique string"""
         return str(uuid.uuid4())
 
