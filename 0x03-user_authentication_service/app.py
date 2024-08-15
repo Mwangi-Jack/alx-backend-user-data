@@ -46,7 +46,7 @@ def login():
 
 
 @app.route('/sessions', methods=['DELETE'], strict_slashes=False)
-def logout():
+def logout() -> None:
     """This method defines the route to destroy a session"""
 
     session_id = request.cookies.get('session_id')
