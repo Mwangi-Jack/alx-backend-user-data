@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Authentication methods"""
 from typing import Optional
-import bcrypt
 import uuid
+import bcrypt
 from sqlalchemy.orm.exc import NoResultFound
 from db import DB
 from user import User
