@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Authentication methods"""
 import bcrypt
+import uuid
 from sqlalchemy.orm.exc import NoResultFound
-from uuid import uuid4
 from db import DB
 from user import User
 
@@ -24,7 +24,7 @@ class Auth:
 
     def _generate_uuid(self):
         """This method generates a unique string"""
-        return str(uuid4())
+        return str(uuid.uuid4())
 
     def register_user(self, email: str, password: str) -> User:
         """
