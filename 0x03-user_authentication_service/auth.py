@@ -2,6 +2,7 @@
 """Authentication methods"""
 import bcrypt
 from sqlalchemy.orm.exc import NoResultFound
+from uuid import uuid4
 from db import DB
 from user import User
 
@@ -53,3 +54,7 @@ class Auth:
 
         except NoResultFound:
             return False
+
+    def _generate_uuid(self):
+        """This method generates a unique string"""
+        return str(uuid4())
