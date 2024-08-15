@@ -1,121 +1,104 @@
 #!/usr/bin/env python3
-"""
-Main file
-"""
-from db import DB
-from user import User
-from sqlalchemy.exc import InvalidRequestError
-from sqlalchemy.orm.exc import NoResultFound
-from auth import _hash_password
-from auth import Auth
+"""This module tests all the endpoints"""
+
+import requests
 
 
-my_db = DB()
-
-# Test 0
-
-# print(User.__tablename__)
-
-# for column in User.__table__.columns:
-#     print("{}: {}".format(column, column.type))
+BASE_URL = 'http://localhost:5000'
+EMAIL = "guillaume@holberton.io"
+PASSWD = "b4l0u"
+NEW_PASSWD = "t4rt1fl3tt3"
 
 
-# Test 1
+def register_user(email: str, password: str) -> None:
+    """This method tests API's register_user functionality """
+    response = requests.post(f'{BASE_URL}/users', data={
+        'email': email, 'password': password
+        }, timeout=5)
+
+    assert response.status_code == 200
+    assert response.json() == {"email": email, "message": "user created"}
 
 
-# user_1 = my_db.add_user("test@test.com", "SuperHashedPwd")
-# print(user_1.id)
+# def log_in_wrong_password(email: str, password: str) -> None:
+#     """This method tests loggin in with wrong password"""
 
-# user_2 = my_db.add_user("test1@test.com", "SuperHashedPwd1")
-# print(user_2.id)
+#     response = requests.post(f'{BASE_URL}/sessions', data={
+#         'email': email, 'password': password
+#         }, timeout=5)
 
-
-# Test 2
-
-# my_db = DB()
-
-# user = my_db.add_user("test@test.com", "PwdHashed")
-# print(user.id)
-
-# find_user = my_db.find_user_by(email="test@test.com")
-# print(find_user.id)
-
-# try:
-#     find_user = my_db.find_user_by(email="test2@test.com")
-#     print(find_user.id)
-# except NoResultFound:
-#     print("Not found")
-
-# try:
-#     find_user = my_db.find_user_by(no_email="test@test.com")
-#     print(find_user.id)
-# except InvalidRequestError:
-#     print("Invalid")
+#     assert response.status_code == 401
 
 
-# Test 3
+# def log_in(email: str, password: str) -> str:
+#     """This method test the API's login functionality"""
 
-# email = 'test@test.com'
-# hashed_password = "hashedPwd"
+#     response = requests.post(f'{BASE_URL}/sessions', data={
+#         'email': email, 'password': password
+#         }, timeout=5)
 
-# user = my_db.add_user(email, hashed_password)
-# print(user.id)
-
-# try:
-#     my_db.update_user(user.id, hashed_password='NewPwd')
-#     print("Password updated")
-# except ValueError:
-#     print("Error")
+#     assert response.status_code == 200
+#     assert response.json() == {"email": email, "message": 'logged in'}
+#     return response.cookies.get('session_id')
 
 
-# Test 4
+# def profile_unlogged() -> None:
+#     """This method tests the API's /profile route"""
+#     response = requests.get(f'{BASE_URL}/profile', timeout=5)
+#     assert response.status_code == 403
 
 
-# print(_hash_password("Hello Holberton"))
+# def profile_logged(session_id: str) -> None:
+#     """This method tests the API's /profile route"""
 
-# Test 5
+#     response = requests.get(f'{BASE_URL}/profile', cookies={
+#         'session_id': session_id
+#         }, timeout=5)
 
-# email = 'me@me.com'
-# password = 'mySecuredPwd'
-
-# auth = Auth()
-
-# try:
-#     user = auth.register_user(email, password)
-#     print("successfully created a new user!")
-# except ValueError as err:
-#     print("could not create a new user: {}".format(err))
-
-# try:
-#     user = auth.register_user(email, password)
-#     print("successfully created a new user!")
-# except ValueError as err:
-#     print("could not create a new user: {}".format(err))
+#     assert response.status_code == 200
+#     assert "email" in response.json()
 
 
-# Test 8
+# def log_out(session_id: str) -> None:
+#     """This function tests the API's logout route"""
+
+#     response = requests.delete(f'{BASE_URL}/sessions', cookies={
+#         'session_id': session_id
+#         }, timeout=5)
+
+#     assert response.status_code == 200
 
 
-# email = 'bob@bob.com'
-# password = 'MyPwdOfBob'
-# auth = Auth()
+# def reset_password_token(email: str) -> str:
+#     """This function tests the API's reset_password route"""
 
-# auth.register_user(email, password)
+#     response = requests.post(f'{BASE_URL}/reset_password',  data={
+#         'email': email
+#         }, timeout=5)
 
-# print(auth.valid_login(email, password))
-
-# print(auth.valid_login(email, "WrongPwd"))
-
-# print(auth.valid_login("unknown@email", password))
+#     assert response.status_code == 200
+#     return response.json().get("reset_token")
 
 
-# Test 10
+# def update_password(email: str, reset_token: str, new_password: str) -> None:
+#     """This function tests the API's reset_password route"""
 
-email = 'bob@bob.com'
-password = 'MyPwdOfBob'
-auth = Auth()
+#     response = requests.get(f'{BASE_URL}/reset_password', data={
+#         'email': email, 'reset_token': reset_token,
+#         'new_password': new_password
+#         }, timeout=5)
 
-auth.register_user(email, password)
+#     assert response.status_code == 200
+#     assert response.json() == {"email": email, "message": "Password updated"}
 
-print(auth.create_session(email))
-print(auth.create_session("unknown@email.com"))
+
+if __name__ == "__main__":
+    register_user(EMAIL, PASSWD)
+    # log_in_wrong_password(EMAIL, NEW_PASSWD)
+    # profile_unlogged()
+    # session_id = log_in(EMAIL, PASSWD)
+    # profile_logged(session_id)
+    # log_out(session_id)
+    # reset_token = reset_password_token(EMAIL)
+    # update_password(EMAIL, reset_token, NEW_PASSWD)
+    # log_in(EMAIL, NEW_PASSWD)
