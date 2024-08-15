@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """This file defines all the API routes"""
 
-from flask import Flask, abort, redirect, request, jsonify, url_for
+from flask import Flask, abort, make_response, redirect, \
+    request, jsonify, url_for
 from auth import Auth
 
 app = Flask(__name__)
@@ -70,7 +71,7 @@ def profile():
     if user:
         return jsonify({"email": user.email}), 200
 
-    abort(403)
+    make_response('', 403)
 
 
 if __name__ == "__main__":
