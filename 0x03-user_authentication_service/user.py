@@ -26,3 +26,5 @@ class User(Base):
         This function return a string
         representation of the class
         """
+        # return f'<User: id {self.id} email
+        # {self.email} password {self.hashed_password}>'

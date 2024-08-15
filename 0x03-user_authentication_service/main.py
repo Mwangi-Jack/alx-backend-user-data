@@ -7,6 +7,7 @@ from user import User
 from sqlalchemy.exc import InvalidRequestError
 from sqlalchemy.orm.exc import NoResultFound
 from auth import _hash_password
+from auth import Auth
 
 
 my_db = DB()
@@ -70,4 +71,23 @@ my_db = DB()
 # Test 4
 
 
-print(_hash_password("Hello Holberton"))
+# print(_hash_password("Hello Holberton"))
+
+# Test 5
+
+email = 'me@me.com'
+password = 'mySecuredPwd'
+
+auth = Auth()
+
+try:
+    user = auth.register_user(email, password)
+    print("successfully created a new user!")
+except ValueError as err:
+    print("could not create a new user: {}".format(err))
+
+try:
+    user = auth.register_user(email, password)
+    print("successfully created a new user!")
+except ValueError as err:
+    print("could not create a new user: {}".format(err))
