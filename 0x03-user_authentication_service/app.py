@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """This file defines all the API routes"""
 
-from flask import Flask, request, jsonify
+from flask import Flask, abort, request, jsonify
 from auth import Auth
 
 app = Flask(__name__)
@@ -26,6 +26,22 @@ def users():
         return jsonify({"email": user.email, "message": "user created"})
     except ValueError:
         return jsonify({"message": "email already registered"}), 400
+
+@app.route('/sessions', methods=['POST'], strict_slashes=False)
+def login():
+    """This mtehod defines the route to login a user"""
+
+    email = request.form.get('email')
+    password = request.form.get('password')
+
+    if AUTH.valid_login(email, password):
+        session_id = AUTH.create_session(email)
+        out = jsonify({"email": email, "message": "logged in"})
+        out.set_cookie("session_id", session_id)
+
+        return out
+
+    abort(401)
 
 
 if __name__ == "__main__":
