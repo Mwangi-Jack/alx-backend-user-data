@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """Authentication methods"""
 import bcrypt
+from sqlalchemy.orm.exc import NoResultFound
 from db import DB
 from user import User
-from sqlalchemy.orm.exc import NoResultFound
 
 
 def _hash_password(password: str) -> bytes:
